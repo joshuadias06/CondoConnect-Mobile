@@ -5,5 +5,12 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Navigation Drawer with No Action Bar -->
+    <style name="Theme.NavigationDrawerButtomNavigationBar" parent="Base.Theme.CondoConnectMobile">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Main theme for the app -->
     <style name="Theme.CondoConnectMobile" parent="Base.Theme.CondoConnectMobile" />
 </resources>
