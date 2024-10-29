@@ -1,0 +1,443 @@
+Para criar as telas 1 e 3 baseadas nos arquivos que você forneceu sobre Listagem e CRUD com o RecyclerView e Retrofit, aqui está um passo a passo completo.
+
+1. Tela 1 (Listagem de Serviços)
+Layout XML da tela de listagem de produtos:
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- RecyclerView para listar os serviços/produtos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_produto" />
+
+    <!-- Botão flutuante para adicionar novos serviços -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Add"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-------------------------------------------------------------------------
+Layout XML do item da lista (item_produto.xml):
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imagemProduto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder_image" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="8dp">
+
+        <TextView
+            android:id="@+id/nomeProduto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Nome do Produto" />
+
+        <TextView
+            android:id="@+id/precoProduto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preço do Produto" />
+    </LinearLayout>
+</LinearLayout>
+---------------------------------------------------------------------------
+2. Tela 3 (Detalhes do Serviço)
+Layout XML da tela de detalhes (activity_service_detail.xml):
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Imagem do serviço -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nome do Serviço -->
+    <TextView
+        android:id="@+id/serviceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome Serviço"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Preço do Serviço -->
+    <TextView
+        android:id="@+id/servicePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="R$00,00"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/serviceName"
+        app:layout_constraintStart_toStartOf="@id/serviceName"
+        android:layout_marginTop="8dp" />
+
+    <!-- Descrição do Serviço -->
+    <TextView
+        android:id="@+id/serviceDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Descrição do Serviço"
+        app:layout_constraintTop_toBottomOf="@id/servicePrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- Botão para cadastrar -->
+    <Button
+        android:id="@+id/registerServiceButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar Serviço"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+---------------------------------------------------------------------
+3. Adapter para o RecyclerView
+Agora, você precisa de um Adapter para preencher o RecyclerView com os dados da API.
+
+Adapter (CustomAdapter.kt):
+class CustomAdapter(private val dataSet: List<Produto>) :
+    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val nome: TextView = view.findViewById(R.id.nomeProduto)
+        val preco: TextView = view.findViewById(R.id.precoProduto)
+        val imagem: ImageView = view.findViewById(R.id.imagemProduto)
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.item_produto, viewGroup, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val produto = dataSet[position]
+        viewHolder.nome.text = produto.PRODUTO_NOME
+        viewHolder.preco.text = "R$ ${produto.PRODUTO_PRECO}"
+        Picasso.get().load(produto.PRODUTO_IMAGEM).into(viewHolder.imagem)
+    }
+
+    override fun getItemCount() = dataSet.size
+}
+-----------------------------------------------------------------------------
+4. Activity de Listagem (MainActivity.kt)
+Na MainActivity, você vai configurar o RecyclerView e carregar os dados usando o Retrofit.
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: CustomAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Configurar Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.0.101/meu_projeto_api/")  // Trocar pelo seu IP local
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+
+        // Chamar API para buscar produtos
+        apiService.getProdutos().enqueue(object : Callback<List<Produto>> {
+            override fun onResponse(call: Call<List<Produto>>, response: Response<List<Produto>>) {
+                if (response.isSuccessful) {
+                    val produtos = response.body() ?: emptyList()
+                    adapter = CustomAdapter(produtos)
+                    recyclerView.adapter = adapter
+                } else {
+                    Log.e("API Error", "Erro ao carregar produtos.")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Produto>>, t: Throwable) {
+                Log.e("API Failure", "Erro de rede.", t)
+            }
+        })
+
+        // Botão para adicionar novo produto
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+        fab.setOnClickListener {
+            // Navegar para a tela de cadastro (ServiceDetailActivity)
+            val intent = Intent(this, ServiceDetailActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+---------------------------------------------------------------------------
+5. Activity de Detalhes (ServiceDetailActivity.kt)
+class ServiceDetailActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_service_detail)
+
+        // Recuperar os dados enviados da MainActivity
+        val serviceName = intent.getStringExtra("serviceName") ?: "Nome não disponível"
+        val servicePrice = intent.getStringExtra("servicePrice") ?: "Preço não disponível"
+
+        // Referenciar os elementos do layout
+        val serviceNameTextView: TextView = findViewById(R.id.serviceName)
+        val servicePriceTextView: TextView = findViewById(R.id.servicePrice)
+
+        serviceNameTextView.text = serviceName
+        servicePriceTextView.text = servicePrice
+    }
+}
+--------------------------------------------------------------------------------
+6. Interface do Retrofit (ApiService.kt)
+interface ApiService {
+
+    @GET("produtos.php")
+    fun getProdutos(): Call<List<Produto>>
+}
+-------------------------------------------------------------------------------
+7. Modelo de Produto (Produto.kt)
+data class Produto(
+    val PRODUTO_ID: Int,
+    val PRODUTO_NOME: String,
+    val PRODUTO_DESC: String,
+    val PRODUTO_PRECO: String,
+    val PRODUTO_IMAGEM: String
+)
+---------------------------------------------------------------------------------
+APIs
+Para adaptar o código que mencionei anteriormente utilizando as APIs que você forneceu, aqui estão as modificações que você pode realizar para se conectar com os serviços descritos nos arquivos.
+
+1. Modifique a Interface do Retrofit (ApiService)
+Com base nas APIs fornecidas, aqui está como você pode configurar o ApiService:
+interface ApiService {
+
+    // Obter a lista de produtos
+    @GET("produtos.php")
+    fun getProdutos(): Call<List<Produto>>
+
+    // Incluir um produto
+    @FormUrlEncoded
+    @POST("incluir_produto.php")
+    fun incluirProduto(
+        @Field("PRODUTO_NOME") nome: String,
+        @Field("PRODUTO_DESC") descricao: String,
+        @Field("PRODUTO_PRECO") preco: String,
+        @Field("PRODUTO_IMAGEM") imagem: String
+    ): Call<Void>
+
+    // Editar um produto
+    @FormUrlEncoded
+    @POST("editar_produto.php")
+    fun editarProduto(
+        @Field("PRODUTO_ID") id: Int,
+        @Field("PRODUTO_NOME") nome: String,
+        @Field("PRODUTO_DESC") descricao: String,
+        @Field("PRODUTO_PRECO") preco: String,
+        @Field("PRODUTO_IMAGEM") imagem: String
+    ): Call<Void>
+
+    // Deletar um produto
+    @FormUrlEncoded
+    @POST("deletar_produto.php")
+    fun deletarProduto(
+        @Field("PRODUTO_ID") id: Int
+    ): Call<Void>
+}
+------------------------------------------------------------------------------------
+2. Exemplo de Adapter para Produtos com Retrofit
+Aqui está o CustomAdapter modificado para lidar com as operações CRUD (Criar, Ler, Atualizar, Deletar):
+class CustomAdapter(private val dataSet: List<Produto>, private val apiService: ApiService) :
+    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val nome: TextView = view.findViewById(R.id.nomeProduto)
+        val descricao: TextView = view.findViewById(R.id.descricaoProduto)
+        val preco: TextView = view.findViewById(R.id.precoProduto)
+        val imagem: ImageView = view.findViewById(R.id.imagemProduto)
+        val editarButton: Button = view.findViewById(R.id.editarButton)
+        val deletarButton: Button = view.findViewById(R.id.deletarButton)
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.item_produto, viewGroup, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val produto = dataSet[position]
+        viewHolder.nome.text = produto.PRODUTO_NOME
+        viewHolder.descricao.text = produto.PRODUTO_DESC
+        viewHolder.preco.text = "R$ ${produto.PRODUTO_PRECO}"
+        Picasso.get().load(produto.PRODUTO_IMAGEM).into(viewHolder.imagem)
+
+        // Passar os dados para a Activity de edição
+        viewHolder.editarButton.setOnClickListener {
+            val intent = Intent(it.context, EditarProdutoActivity::class.java)
+            intent.putExtra("PRODUTO_ID", produto.PRODUTO_ID)
+            intent.putExtra("PRODUTO_NOME", produto.PRODUTO_NOME)
+            intent.putExtra("PRODUTO_DESC", produto.PRODUTO_DESC)
+            intent.putExtra("PRODUTO_PRECO", produto.PRODUTO_PRECO)
+            intent.putExtra("PRODUTO_IMAGEM", produto.PRODUTO_IMAGEM)
+            it.context.startActivity(intent)
+        }
+
+        // Deletar produto ao clicar no botão
+        viewHolder.deletarButton.setOnClickListener {
+            apiService.deletarProduto(produto.PRODUTO_ID).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Toast.makeText(it.context, "Produto deletado com sucesso!", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(it.context, "Erro ao deletar o produto", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+    }
+
+    override fun getItemCount() = dataSet.size
+}
+---------------------------------------------------------------------
+3. Activity de Produtos (Listagem)
+Aqui está um exemplo de como a ProdutosActivity pode ser configurada para buscar e exibir os produtos da API:
+class ProdutosActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: CustomAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_produtos)
+
+        recyclerView = findViewById(R.id.recyclerViewProdutos)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://seu-servidor.com/api/") // Trocar pelo seu IP ou domínio
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+
+        apiService.getProdutos().enqueue(object : Callback<List<Produto>> {
+            override fun onResponse(call: Call<List<Produto>>, response: Response<List<Produto>>) {
+                if (response.isSuccessful) {
+                    val produtos = response.body() ?: emptyList()
+                    adapter = CustomAdapter(produtos, apiService)
+                    recyclerView.adapter = adapter
+                } else {
+                    Log.e("API Error", "Erro ao carregar os produtos.")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Produto>>, t: Throwable) {
+                Log.e("API Failure", "Erro de conexão", t)
+            }
+        })
+    }
+}
+------------------------------------------------------------------------
+4. Activity de Edição de Produto
+A EditarProdutoActivity pode ser configurada para permitir a edição de um produto existente:
+class EditarProdutoActivity : AppCompatActivity() {
+
+    private lateinit var nomeEditText: EditText
+    private lateinit var descricaoEditText: EditText
+    private lateinit var precoEditText: EditText
+    private lateinit var imagemEditText: EditText
+    private lateinit var salvarButton: Button
+
+    private var produtoId: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_editar_produto)
+
+        nomeEditText = findViewById(R.id.nomeEditText)
+        descricaoEditText = findViewById(R.id.descricaoEditText)
+        precoEditText = findViewById(R.id.precoEditText)
+        imagemEditText = findViewById(R.id.imagemEditText)
+        salvarButton = findViewById(R.id.salvarButton)
+
+        // Resgatar dados passados pela Intent
+        produtoId = intent.getIntExtra("PRODUTO_ID", 0)
+        nomeEditText.setText(intent.getStringExtra("PRODUTO_NOME"))
+        descricaoEditText.setText(intent.getStringExtra("PRODUTO_DESC"))
+        precoEditText.setText(intent.getStringExtra("PRODUTO_PRECO"))
+        imagemEditText.setText(intent.getStringExtra("PRODUTO_IMAGEM"))
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://seu-servidor.com/api/") // Trocar pelo IP correto
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+
+        salvarButton.setOnClickListener {
+            apiService.editarProduto(
+                produtoId,
+                nomeEditText.text.toString(),
+                descricaoEditText.text.toString(),
+                precoEditText.text.toString(),
+                imagemEditText.text.toString()
+            ).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@EditarProdutoActivity, "Produto atualizado com sucesso!", Toast.LENGTH_LONG).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@EditarProdutoActivity, "Erro ao atualizar produto", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(this@EditarProdutoActivity, "Erro de conexão", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+    }
+}
