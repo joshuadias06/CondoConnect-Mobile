@@ -12,7 +12,7 @@ CondoConnect Mobile é um aplicativo Android desenvolvido para gerenciar produto
 
 ## Tecnologias Utilizadas
 
-- **Linguagem**: Kotlin
+[![My Skills](https://skillicons.dev/icons?i=kotlin,gradle&perline=17)](https://skillicons.dev)
 - **Framework**: Retrofit para comunicação com a API RESTful.
 - **Layout**: XML para o design das interfaces.
 - **Gerenciamento de Dependências**: Gradle
