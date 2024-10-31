@@ -27,25 +27,25 @@ class ListagemActivity : AppCompatActivity() {
 
         // Configurar Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://0f7e7338-f3e2-4548-8fd6-9b9d1750998c-00-15f6q8paief7s.kirk.replit.dev/")  // Trocar pelo seu IP local
+            .baseUrl("https://e50a8b2c-5876-4ac7-a5f9-f306e6306666-00-2jm1sibifrd8.spock.replit.dev/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
 
         // Chamar API para buscar produtos
-        apiService.getProdutos().enqueue(object : Callback<List<Produto>> {
-            override fun onResponse(call: Call<List<Produto>>, response: Response<List<Produto>>) {
+        apiService.getProdutos().enqueue(object : Callback<ProdutoResponse> {
+            override fun onResponse(call: Call<ProdutoResponse>, response: Response<ProdutoResponse>) {
                 if (response.isSuccessful) {
-                    val produtos = response.body() ?: emptyList()
+                    val produtos = response.body()?.produtos ?: emptyList()
                     adapter = CustomAdapter(produtos)
                     recyclerView.adapter = adapter
                 } else {
-                    Log.e("API Error", "Erro ao carregar produtos.")
+                    Log.e("API Error", "Erro ao carregar produtos: ${response.message()}")
                 }
             }
 
-            override fun onFailure(call: Call<List<Produto>>, t: Throwable) {
+            override fun onFailure(call: Call<ProdutoResponse>, t: Throwable) {
                 Log.e("API Failure", "Erro de rede.", t)
             }
         })

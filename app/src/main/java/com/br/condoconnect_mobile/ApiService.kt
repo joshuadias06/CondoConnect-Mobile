@@ -9,8 +9,8 @@ import retrofit2.http.POST
 interface ApiService {
 
     // Obter a lista de produtos
-    @GET("produtos.php")
-    fun getProdutos(): Call<List<Produto>>
+    @GET("index.php")
+    fun getProdutos(): Call<ProdutoResponse> // Corrigido para ProdutoResponse
 
     // Incluir um produto
     @FormUrlEncoded

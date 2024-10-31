@@ -25,9 +25,9 @@ class CustomAdapter(private val dataSet: List<Produto>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val produto = dataSet[position]
-        viewHolder.nome.text = produto.PRODUTO_NOME
-        viewHolder.preco.text = "R$ ${produto.PRODUTO_PRECO}"
-        Picasso.get().load(produto.PRODUTO_IMAGEM).into(viewHolder.imagem)
+        viewHolder.nome.text = produto.nome_produto
+        viewHolder.preco.text = "R$ ${produto.preco_produto}"
+        Picasso.get().load(produto.imagem_produto).into(viewHolder.imagem)
     }
 
     override fun getItemCount() = dataSet.size

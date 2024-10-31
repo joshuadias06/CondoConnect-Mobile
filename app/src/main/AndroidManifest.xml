@@ -21,12 +21,6 @@
             android:name=".ServiceDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ProdutoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductActivity"
-            android:exported="false" /> <!-- MainActivity -->
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.NavigationDrawerButtomNavigationBar">
