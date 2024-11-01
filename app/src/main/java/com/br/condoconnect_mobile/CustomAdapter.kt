@@ -30,5 +30,7 @@ class CustomAdapter(private val dataSet: List<Produto>) :
         Picasso.get().load(produto.imagem_produto).into(viewHolder.imagem)
     }
 
+    
+
     override fun getItemCount() = dataSet.size
 }

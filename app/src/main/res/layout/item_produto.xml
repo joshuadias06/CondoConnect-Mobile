@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,12 +13,10 @@
         android:scaleType="centerCrop"
         android:src="@drawable/condologo" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:layout_marginStart="20dp">
+        android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/nomeProduto"
@@ -30,6 +29,30 @@
             android:id="@+id/precoProduto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/nomeProduto"
+            android:layout_alignParentStart="true"
             android:text="Preço do Produto" />
-    </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/deletar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            app:tint="@color/condo"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+        <ImageButton
+            android:id="@+id/editar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            app:tint="@color/condo" />
+
+    </RelativeLayout>
+
 </LinearLayout>
