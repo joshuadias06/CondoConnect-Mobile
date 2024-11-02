@@ -10,7 +10,7 @@ interface ApiService {
 
     // Obter a lista de produtos
     @GET("index.php")
-    fun getProdutos(): Call<ProdutoResponse> // Corrigido para ProdutoResponse
+    fun getProdutos(): Call<ProdutoResponse>
 
     // Incluir um produto
     @FormUrlEncoded
@@ -24,19 +24,25 @@ interface ApiService {
 
     // Editar um produto
     @FormUrlEncoded
-    @POST("editar_produto.php")
+    @POST("index.php") // Altere para o endpoint correto
     fun editarProduto(
         @Field("PRODUTO_ID") id: Int,
         @Field("PRODUTO_NOME") nome: String,
         @Field("PRODUTO_DESC") descricao: String,
         @Field("PRODUTO_PRECO") preco: String,
-        @Field("PRODUTO_IMAGEM") imagem: String
-    ): Call<Void>
+        @Field("PRODUTO_IMAGEM") imagem: String // Adicione a imagem se necessário
+    ): Call<RespostaEdit> // Use uma classe para a resposta
 
     // Deletar um produto
     @FormUrlEncoded
-    @POST("deletar_produto.php")
+    @POST("deletar_produto.php") // Altere para o endpoint correto
     fun deletarProduto(
         @Field("PRODUTO_ID") id: Int
     ): Call<Void>
 }
+
+// Classe para a resposta da edição do produto
+data class RespostaEdit(
+    val status: String,
+    val error: String? // Caso haja algum erro, para facilitar a depuração
+)
