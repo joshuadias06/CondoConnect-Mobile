@@ -20,6 +20,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView para listar os serviços/produtos -->
+
+    <!-- Botão flutuante para adicionar novos serviços -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -28,11 +30,12 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_produto" />
 
-    <!-- Botão flutuante para adicionar novos serviços -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

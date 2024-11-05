@@ -17,45 +17,43 @@ class ListagemActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CustomAdapter
-    private lateinit var produtos: MutableList<Produto> // Armazena a lista de produtos
+    private var produtos: MutableList<Produto> = mutableListOf() // Armazena a lista de produtos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listagem)
 
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Inicializa a lista de produtos
-        produtos = mutableListOf()
-
-        // Carregar produtos inicialmente
+        setupRecyclerView()
         carregarProdutos()
 
         // Botão para adicionar novo produto
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            // Navegar para a tela de cadastro (ServiceDetailActivity)
-            val intent = Intent(this, ServiceDetailActivity::class.java)
-            startActivity(intent)
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            // Navegar para a tela de inclusão de produto
+            startActivity(Intent(this, IncluirProdutoActivity::class.java)) // Modificado para abrir IncluirProdutoActivity
         }
     }
 
-    private fun carregarProdutos() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://e50a8b2c-5876-4ac7-a5f9-f306e6306666-00-2jm1sibifrd8.spock.replit.dev/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private fun setupRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = CustomAdapter(produtos, ::deletarProduto, ::editarProduto) // Passa a função de edição
+        recyclerView.adapter = adapter
+    }
 
-        val apiService = retrofit.create(ApiService::class.java)
+    private fun carregarProdutos() {
+        val apiService = criarRetrofit().create(ApiService::class.java)
 
         // Chamar API para buscar produtos
         apiService.getProdutos().enqueue(object : Callback<ProdutoResponse> {
             override fun onResponse(call: Call<ProdutoResponse>, response: Response<ProdutoResponse>) {
                 if (response.isSuccessful) {
-                    produtos = response.body()?.produtos?.toMutableList() ?: mutableListOf()
-                    adapter = CustomAdapter(produtos, ::deletarProduto, ::editarProduto) // Passa a função de edição
-                    recyclerView.adapter = adapter
+                    response.body()?.produtos?.let {
+                        produtos.clear()
+                        produtos.addAll(it)
+                        adapter.notifyDataSetChanged() // Notifica o adapter sobre mudanças na lista
+                    } ?: run {
+                        Log.e("API Error", "Nenhum produto encontrado.")
+                    }
                 } else {
                     Log.e("API Error", "Erro ao carregar produtos: ${response.message()}")
                 }
@@ -68,12 +66,7 @@ class ListagemActivity : AppCompatActivity() {
     }
 
     private fun deletarProduto(produto: Produto) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://e50a8b2c-5876-4ac7-a5f9-f306e6306666-00-2jm1sibifrd8.spock.replit.dev/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(ApiService::class.java)
+        val apiService = criarRetrofit().create(ApiService::class.java)
 
         apiService.deletarProduto(produto.id_produto).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -92,8 +85,9 @@ class ListagemActivity : AppCompatActivity() {
 
     private fun editarProduto(produto: Produto) {
         // Navegar para a tela de edição
-        val intent = Intent(this, EditarProdutoActivity::class.java)
-        intent.putExtra("produto", produto)
+        val intent = Intent(this, EditarProdutoActivity::class.java).apply {
+            putExtra("produto", produto)
+        }
         startActivityForResult(intent, EDITAR_PRODUTO_REQUEST) // Usar startActivityForResult
     }
 
@@ -103,6 +97,13 @@ class ListagemActivity : AppCompatActivity() {
         if (requestCode == EDITAR_PRODUTO_REQUEST && resultCode == RESULT_OK) {
             carregarProdutos() // Recarregar a lista de produtos
         }
+    }
+
+    private fun criarRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://e50a8b2c-5876-4ac7-a5f9-f306e6306666-00-2jm1sibifrd8.spock.replit.dev/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     companion object {

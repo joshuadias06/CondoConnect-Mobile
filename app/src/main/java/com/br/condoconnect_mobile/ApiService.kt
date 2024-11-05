@@ -24,7 +24,7 @@ interface ApiService {
 
     // Editar um produto
     @FormUrlEncoded
-    @POST("index.php") // Altere para o endpoint correto
+    @POST("editar_produto.php") // Altere para o endpoint correto
     fun editarProduto(
         @Field("PRODUTO_ID") id: Int,
         @Field("PRODUTO_NOME") nome: String,

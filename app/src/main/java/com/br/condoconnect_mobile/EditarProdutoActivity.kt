@@ -6,9 +6,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -24,18 +25,18 @@ class EditarProdutoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_produto)
 
+        // Inicializar views
         nomeProduto = findViewById(R.id.nomeProduto)
         precoProduto = findViewById(R.id.precoProduto)
         descricaoProduto = findViewById(R.id.descricaoProduto)
         editarProdutoButton = findViewById(R.id.editarProdutoButton)
 
         // Obter o produto da Intent
-        val produto = intent.getParcelableExtra<Produto>("produto")
-        produto?.let {
-            produtoId = it.id_produto
-            nomeProduto.setText(it.nome_produto)
-            precoProduto.setText(it.preco_produto.toString())
-            descricaoProduto.setText(it.desc_produto)
+        intent.getParcelableExtra<Produto>("produto")?.let { produto ->
+            produtoId = produto.id_produto
+            nomeProduto.setText(produto.nome_produto)
+            precoProduto.setText(produto.preco_produto.toString())
+            descricaoProduto.setText(produto.desc_produto)
         }
 
         // Configurar o clique do botão para editar
@@ -54,18 +55,37 @@ class EditarProdutoActivity : AppCompatActivity() {
 
         return when {
             nome.isEmpty() -> {
-                Toast.makeText(this, "O nome do produto é obrigatório.", Toast.LENGTH_SHORT).show()
+                mostrarMensagem("O nome do produto é obrigatório.")
                 false
             }
             preco.isEmpty() -> {
-                Toast.makeText(this, "O preço do produto é obrigatório.", Toast.LENGTH_SHORT).show()
+                mostrarMensagem("O preço do produto é obrigatório.")
                 false
             }
             descricao.isEmpty() -> {
-                Toast.makeText(this, "A descrição do produto é obrigatória.", Toast.LENGTH_SHORT).show()
+                mostrarMensagem("A descrição do produto é obrigatória.")
+                false
+            }
+            !preco.isDouble() -> {
+                mostrarMensagem("O preço deve ser um número válido.")
                 false
             }
             else -> true
+        }
+    }
+
+    // Método para mostrar mensagens de Toast
+    private fun mostrarMensagem(mensagem: String) {
+        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show()
+    }
+
+    // Função de extensão para verificar se uma String é um número válido
+    private fun String.isDouble(): Boolean {
+        return try {
+            this.toDouble()
+            true
+        } catch (e: NumberFormatException) {
+            false
         }
     }
 
@@ -76,33 +96,36 @@ class EditarProdutoActivity : AppCompatActivity() {
 
         // Configurar Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://e50a8b2c-5876-4ac7-a5f9-f306e6306666-00-2jm1sibifrd8.spock.replit.dev/")
+            .baseUrl("https://919bc248-e514-4e60-a1d1-e9924f95d096-00-srq164nqs0ci.riker.replit.dev/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
 
-        // Chamar API para editar produto
-        apiService.editarProduto(produtoId, nome, descricao, preco, "").enqueue(object : Callback<RespostaEdit> {
-            override fun onResponse(call: Call<RespostaEdit>, response: Response<RespostaEdit>) {
-                if (response.isSuccessful) {
-                    val resposta = response.body()
-                    resposta?.let {
-                        Toast.makeText(this@EditarProdutoActivity, it.status, Toast.LENGTH_SHORT).show()
-                        // Produto editado com sucesso, retorna resultado para a ListagemActivity
-                        setResult(RESULT_OK) // Define o resultado como OK
-                        finish() // Voltar para a tela anterior
+        // Chamar API para editar produto em uma Coroutine
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService.editarProduto(produtoId, nome, descricao, preco, "").execute()
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        val resposta = response.body()
+                        Log.d("API Response", resposta.toString())
+                        resposta?.let {
+                            mostrarMensagem(it.status)
+                            setResult(RESULT_OK)
+                            finish()
+                        }
+                    } else {
+                        Log.e("Edit Error", "Erro ao editar produto: ${response.message()}")
+                        mostrarMensagem("Erro ao editar produto: ${response.message()}")
                     }
-                } else {
-                    Log.e("Edit Error", "Erro ao editar produto: ${response.message()}")
-                    Toast.makeText(this@EditarProdutoActivity, "Erro ao editar produto: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (t: Throwable) {
+                Log.e("Edit Failure", "Erro de rede ao editar produto: ${t.message}", t)
+                withContext(Dispatchers.Main) {
+                    mostrarMensagem("Erro de rede: ${t.message}")
                 }
             }
-
-            override fun onFailure(call: Call<RespostaEdit>, t: Throwable) {
-                Log.e("Edit Failure", "Erro de rede ao editar produto.", t)
-                Toast.makeText(this@EditarProdutoActivity, "Erro de rede.", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 }

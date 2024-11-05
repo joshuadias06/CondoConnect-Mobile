@@ -1,0 +1,40 @@
+<!-- activity_incluir_produto.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome do Produto" />
+
+    <EditText
+        android:id="@+id/editTextDescricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descrição do Produto" />
+
+    <EditText
+        android:id="@+id/editTextPreco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Preço do Produto"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editTextImagem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="URL da Imagem" />
+
+    <Button
+        android:id="@+id/buttonIncluir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar Produto"
+        android:backgroundTint="@color/condo" />
+</LinearLayout>
