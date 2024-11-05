@@ -17,7 +17,7 @@ class ListagemActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CustomAdapter
-    private var produtos: MutableList<Produto> = mutableListOf() // Armazena a lista de produtos
+    private var produtos: MutableList<Produto> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,31 +26,28 @@ class ListagemActivity : AppCompatActivity() {
         setupRecyclerView()
         carregarProdutos()
 
-        // Botão para adicionar novo produto
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            // Navegar para a tela de inclusão de produto
-            startActivity(Intent(this, IncluirProdutoActivity::class.java)) // Modificado para abrir IncluirProdutoActivity
+            startActivity(Intent(this, IncluirProdutoActivity::class.java))
         }
     }
 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CustomAdapter(produtos, ::deletarProduto, ::editarProduto) // Passa a função de edição
+        adapter = CustomAdapter(produtos, ::deletarProduto, ::editarProduto, ::abrirDetalhesProduto)
         recyclerView.adapter = adapter
     }
 
     private fun carregarProdutos() {
         val apiService = criarRetrofit().create(ApiService::class.java)
 
-        // Chamar API para buscar produtos
         apiService.getProdutos().enqueue(object : Callback<ProdutoResponse> {
             override fun onResponse(call: Call<ProdutoResponse>, response: Response<ProdutoResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.produtos?.let {
                         produtos.clear()
                         produtos.addAll(it)
-                        adapter.notifyDataSetChanged() // Notifica o adapter sobre mudanças na lista
+                        adapter.notifyDataSetChanged()
                     } ?: run {
                         Log.e("API Error", "Nenhum produto encontrado.")
                     }
@@ -65,13 +62,23 @@ class ListagemActivity : AppCompatActivity() {
         })
     }
 
+    private fun abrirDetalhesProduto(produto: Produto) {
+        val intent = Intent(this, ServiceDetailActivity::class.java).apply {
+            putExtra("serviceName", produto.nome_produto)
+            putExtra("servicePrice", "R$ ${produto.preco_produto}")
+            putExtra("serviceDescription", produto.desc_produto)// Certifique-se que Produto tem um campo descrição
+            putExtra("serviceImage", produto.imagem_produto) // Passando a URL da imagem
+        }
+        startActivity(intent)
+    }
+
     private fun deletarProduto(produto: Produto) {
         val apiService = criarRetrofit().create(ApiService::class.java)
 
         apiService.deletarProduto(produto.id_produto).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    adapter.removeItem(produto) // Remove o item do adapter
+                    adapter.removeItem(produto)
                 } else {
                     Log.e("Delete Error", "Erro ao deletar produto: ${response.message()}")
                 }
@@ -84,18 +91,16 @@ class ListagemActivity : AppCompatActivity() {
     }
 
     private fun editarProduto(produto: Produto) {
-        // Navegar para a tela de edição
         val intent = Intent(this, EditarProdutoActivity::class.java).apply {
             putExtra("produto", produto)
         }
-        startActivityForResult(intent, EDITAR_PRODUTO_REQUEST) // Usar startActivityForResult
+        startActivityForResult(intent, EDITAR_PRODUTO_REQUEST)
     }
 
-    // Atualizar a lista após voltar da edição
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == EDITAR_PRODUTO_REQUEST && resultCode == RESULT_OK) {
-            carregarProdutos() // Recarregar a lista de produtos
+            carregarProdutos()
         }
     }
 
@@ -107,6 +112,6 @@ class ListagemActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val EDITAR_PRODUTO_REQUEST = 1 // Código de solicitação para edição
+        private const val EDITAR_PRODUTO_REQUEST = 1
     }
 }

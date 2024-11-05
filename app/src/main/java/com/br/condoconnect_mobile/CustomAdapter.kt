@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
 class CustomAdapter(
-    private var dataSet: MutableList<Produto>, // Mudado para var para permitir modificações
+    private var dataSet: MutableList<Produto>,
     private val onDelete: (Produto) -> Unit,
-    private val onEdit: (Produto) -> Unit
+    private val onEdit: (Produto) -> Unit,
+    private val onDetail: (Produto) -> Unit // Novo callback para detalhes
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -43,6 +44,11 @@ class CustomAdapter(
         // Configurar o click do botão de editar
         viewHolder.editar.setOnClickListener {
             onEdit(produto) // Chama o callback de editar
+        }
+
+        // Configurar o click do item para ver detalhes
+        viewHolder.itemView.setOnClickListener {
+            onDetail(produto) // Chama o callback de detalhes
         }
     }
 
