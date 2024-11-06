@@ -1,0 +1,131 @@
+index.php
+<?php
+echo "API está funcionando!";
+?>
+------------------------------------
+config.php
+<?php
+$host = 'www.thyagoquintas.com.br:3306';
+$db = 'engenharia_16';
+$user = 'engenharia_16';
+$pass = 'canariodaterra';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charse=$charset";
+$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+	
+PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+PDO::ATTR_EMULATE_PREPARES => false,
+	];
+
+try {
+	$pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+	echo "Erro de conexão: " . $e->getMessage();
+	exit;
+}
+?>
+------------------------------------
+listar_produto.php
+<?php
+include 'config.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+		// Código para listar agendamentos
+		$sql = "SELECT * FROM PRODUTO";
+		$stmt = $pdo->query($sql);
+		$produtos = $stmt->fetchAll();
+
+		header('Content-Type: application/json');
+		echo json_encode($produtos);
+} else {
+		// Método não permitido
+		header("HTTP/1.1 405 Method Not Allowed");
+		echo json_encode(["status" => "Método inválido!"]);
+}
+?>
+-------------------------------------
+criar_produto.php
+<?php
+include 'config.php'; // Certifique-se de que o caminho está correto
+
+// Verifique se o método de requisição é POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$nome = $_POST['nome_produto'] ?? null;
+		$descricao = $_POST['desc_produto'] ?? null;
+		$preco = $_POST['preco_produto'] ?? null;
+		$imagem = $_POST['imagem_produto'] ?? null;
+
+		if ($nome && $descricao && $preco && $imagem) {
+				try {
+						$pdo = new PDO($dsn, $user, $pass, $options);
+						$sql = "INSERT INTO PRODUTO (nome_produto, desc_produto, preco_produto, imagem_produto) VALUES (?, ?, ?, ?)";
+						$stmt = $pdo->prepare($sql);
+						$stmt->execute([$nome, $descricao, $preco, $imagem]);
+
+						echo json_encode(['status' => 'Produto criado com sucesso!']);
+				} catch (PDOException $e) {
+						echo json_encode(['status' => 'Erro ao criar produto: ' . $e->getMessage()]);
+				}
+		} else {
+				echo json_encode(['status' => 'Dados incompletos!']);
+		}
+} else {
+		echo json_encode(['status' => 'Método inválido!']);
+}
+?>
+--------------------------------------
+deletar_produto.php
+<?php
+include 'config.php'; // Certifique-se de que o caminho está correto
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$idproduto = $_POST['id_produto'] ?? null;
+
+		if ($idproduto) {
+				try {
+						$pdo = new PDO($dsn, $user, $pass, $options);
+						$sql = "DELETE FROM PRODUTO WHERE id_produto = ?";
+						$stmt = $pdo->prepare($sql);
+						$stmt->execute([$idproduto]);
+
+						echo json_encode(['status' => 'Produto removido com sucesso!']);
+				} catch (PDOException $e) {
+						echo json_encode(['status' => 'Erro ao remover produto: ' . $e->getMessage()]);
+				}
+		} else {
+				echo json_encode(['status' => 'ID não fornecido!']);
+		}
+} else {
+		echo json_encode(['status' => 'Método inválido!']);
+}
+?>
+-----------------------------------------
+editar_produto.php
+<?php
+include 'config.php'; // Certifique-se de que o caminho está correto
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $idproduto = $_POST['id_produto'] ?? null;
+    $nome = $_POST['nome_produto'] ?? null;
+    $descricao = $_POST['desc_produto'] ?? null;
+    $preco = $_POST['preco_produto'] ?? null;
+
+    if ($idproduto && $nome && $descricao && $preco) {
+        try {
+            $pdo = new PDO($dsn, $user, $pass, $options);
+            $sql = "UPDATE PRODUTO SET nome_produto = ?, desc_produto = ?, preco_produto = ? WHERE id_produto = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$nome, $descricao, $preco, $idproduto]);
+
+            echo json_encode(['status' => 'Produto atualizado com sucesso!']);
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'Erro ao atualizar produto: ' . $e->getMessage()]);
+        }
+    } else {
+        echo json_encode(['status' => 'Dados incompletos!']);
+    }
+} else {
+    echo json_encode(['status' => 'Método inválido!']);
+}
+?>
