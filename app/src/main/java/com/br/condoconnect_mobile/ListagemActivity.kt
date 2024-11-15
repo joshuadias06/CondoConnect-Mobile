@@ -73,12 +73,17 @@ class ListagemActivity : AppCompatActivity() {
     }
 
     private fun deletarProduto(produto: Produto) {
-        val apiService = criarRetrofit().create(ApiService::class.java)
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://ec9d6ba7-b6b9-42de-b309-6669e30f065c-00-7yi2ko7ki0sx.riker.replit.dev/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
 
         apiService.deletarProduto(produto.id_produto).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    adapter.removeItem(produto)
+                    adapter.removeItem(produto) // Remove o item do adapter
                 } else {
                     Log.e("Delete Error", "Erro ao deletar produto: ${response.message()}")
                 }

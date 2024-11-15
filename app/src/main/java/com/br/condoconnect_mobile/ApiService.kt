@@ -14,30 +14,30 @@ interface ApiService {
 
     // Incluir um produto
     @FormUrlEncoded
-    @POST("incluir_produto.php")
+    @POST("criar_produto.php")
     fun incluirProduto(
-        @Field("PRODUTO_NOME") nome: String,
-        @Field("PRODUTO_DESC") descricao: String,
-        @Field("PRODUTO_PRECO") preco: String,
-        @Field("PRODUTO_IMAGEM") imagem: String
+        @Field("nome_produto") nome: String,
+        @Field("desc_produto") descricao: String,
+        @Field("preco_produto") preco: String,
+        @Field("imagem_produto") imagem: String
     ): Call<Void>
 
     // Editar um produto
     @FormUrlEncoded
     @POST("editar_produto.php") // Altere para o endpoint correto
     fun editarProduto(
-        @Field("PRODUTO_ID") id: Int,
-        @Field("PRODUTO_NOME") nome: String,
-        @Field("PRODUTO_DESC") descricao: String,
-        @Field("PRODUTO_PRECO") preco: String,
-        @Field("PRODUTO_IMAGEM") imagem: String // Adicione a imagem se necessário
+        @Field("id_produto") id: Int,
+        @Field("nome_produto") nome: String,
+        @Field("desc_produto") descricao: String,
+        @Field("preco_produto") preco: String,
+        @Field("imagem_produto") imagem: String // Adicione a imagem se necessário
     ): Call<RespostaEdit> // Use uma classe para a resposta
 
     // Deletar um produto
     @FormUrlEncoded
-    @POST("deletar_produto.php") // Altere para o endpoint correto
+    @POST("index.php") // Altere para o endpoint correto
     fun deletarProduto(
-        @Field("PRODUTO_ID") id: Int
+        @Field("id_produto") id: Int
     ): Call<Void>
 }
 
