@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="condo">#F1A526</color>
+    <color name="bgcondo">#F3C371</color>
 
     <color name="rippleColor">#03ff72</color>
 
