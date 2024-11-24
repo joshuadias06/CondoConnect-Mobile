@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,28 +23,35 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var registerTextView: TextView // Definição do TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Habilitar edge-to-edge
-        enableEdgeToEdge()
+
+        // Carregando o layout
         setContentView(R.layout.activity_login)
 
-        // Aplicar insets de sistema
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        // Inicializar campos de email e senha
+        // Inicializando as views
         emailEditText = findViewById(R.id.emailInput)
         passwordEditText = findViewById(R.id.passwordInput)
+        registerTextView = findViewById(R.id.registerTextView) // Certifique-se de que o ID esteja correto
+
+        // Verifique se o TextView foi inicializado corretamente
+        if (registerTextView == null) {
+            Log.e("LoginActivity", "registerTextView is not found")
+        }
+
         val loginButton: Button = findViewById(R.id.loginButton)
 
         // Configurar ação do botão de login
         loginButton.setOnClickListener {
             blockLogin()
+        }
+
+        // Ação para navegar para a RegisterActivity ao clicar no TextView
+        registerTextView.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 
