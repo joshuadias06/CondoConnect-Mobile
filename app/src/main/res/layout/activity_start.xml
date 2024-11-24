@@ -8,9 +8,14 @@
     android:backgroundTint="@color/bgcondo"
     tools:context=".StartActivity">
 
-    <!-- Botão flutuante -->
-
-    <!-- Menu BottomAppBar -->
+    <View
+        android:id="@+id/backgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/bgcondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
@@ -42,14 +47,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="-3dp"
+        android:layout_marginBottom="4dp"
         android:text="Início"
         android:textColor="@color/condo"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView11"
-        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView11"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="707dp" />
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView11"
@@ -147,16 +153,17 @@
         android:layout_height="400dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.431"
+        app:layout_constraintVertical_bias="0.435"
         app:srcCompat="@drawable/condominio" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         android:text="A CondConnect é uma plataforma que facilita a administração de condomínios e a convivência entre moradores. Oferecemos ferramentas para agendamento de áreas comuns, participação em eventos e troca de serviços. Nosso foco é integrar a comunidade com soluções simples e eficientes."
         app:layout_constraintBottom_toBottomOf="@+id/bottomAppBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -169,11 +176,13 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
         android:text="Quem somos?"
         android:textStyle="bold"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="456dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button2"
@@ -186,15 +195,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="800dp"
-        android:layout_height="200dp"
-        android:backgroundTint="@color/bgcondo"
-        tools:layout_editor_absoluteX="-163dp"
-        tools:layout_editor_absoluteY="-12dp"
-        tools:ignore="MissingConstraints" />
-
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
@@ -205,38 +205,52 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView15"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.519"
+        app:layout_constraintVertical_bias="0.205"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:alpha="0.5"
         android:text="SUA CASA NOSSA CONEXÃ0"
         android:textColor="@color/white"
         android:textSize="24dp"
-        android:alpha="0.5"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
         android:backgroundTint="@color/white"
         android:text="Pesquise produtos aqui"
-        android:textStyle="italic"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/textView21"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20"
+        app:layout_constraintVertical_bias="0.075" />
+
+    <ImageButton
+        android:id="@+id/carrinhoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.266"
+        app:srcCompat="@drawable/car"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
