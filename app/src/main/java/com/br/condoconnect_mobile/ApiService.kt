@@ -47,6 +47,38 @@ interface ApiService {
         fun cadastrarUsuario(@Body usuario: Usuario): Call<ResponseCadastro>
     }
 
+    // Obter a lista de agendamentos
+    @GET("condominio/api/listar_agendamentos.php")
+    fun getAgendamentos(): Call<List<Agendamento>> // Modificado para lista
+
+    // Incluir um agendamento
+    @FormUrlEncoded
+    @POST("condominio/api/criar_agendamento.php")
+    fun incluirAgendamento(
+        @Field("evento") evento: String,
+        @Field("descricao") descricao: String,
+        @Field("data") data: String,
+        @Field("horario") horario: String
+    ): Call<Void>
+
+    // Editar um agendamento
+    @FormUrlEncoded
+    @POST("condominio/api/editar_agendamento.php")
+    fun editarAgendamento(
+        @Field("id") id: Int,
+        @Field("evento") evento: String,
+        @Field("descricao") descricao: String,
+        @Field("data") data: String,
+        @Field("horario") horario: String
+    ): Call<RespostaEdit>
+
+    // Remover um agendamento
+    @FormUrlEncoded
+    @POST("condominio/api/remover_agendamento.php")
+    fun removerAgendamento(
+        @Field("id") id: Int
+    ): Call<Void>
+
 }
 
 // Classe para a resposta da edição do produto
