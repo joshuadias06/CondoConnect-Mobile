@@ -77,7 +77,7 @@ tools:context=".RegisterActivity">
     app:layout_constraintTop_toBottomOf="@+id/condoLogoRegister" />
 
 <EditText
-    android:id="@+id/editTextText"
+    android:id="@+id/editTextNome"
     android:layout_width="300dp"
     android:layout_height="50dp"
     android:layout_marginTop="10dp"
@@ -97,10 +97,10 @@ tools:context=".RegisterActivity">
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNome" />
 
 <EditText
-    android:id="@+id/editTextTextPassword2"
+    android:id="@+id/editTextPassword"
     android:layout_width="300dp"
     android:layout_height="50dp"
     android:layout_marginTop="10dp"

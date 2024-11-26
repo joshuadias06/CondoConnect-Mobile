@@ -1,6 +1,7 @@
 package com.br.condoconnect_mobile
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -39,6 +40,13 @@ interface ApiService {
     fun deletarProduto(
         @Field("id_produto") id: Int
     ): Call<Void>
+
+
+    interface ApiService {
+        @POST("seu-endpoint-de-cadastro")
+        fun cadastrarUsuario(@Body usuario: Usuario): Call<ResponseCadastro>
+    }
+
 }
 
 // Classe para a resposta da edição do produto
