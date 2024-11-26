@@ -1,0 +1,41 @@
+<!-- activity_incluir_produto.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Evento" />
+
+    <EditText
+        android:id="@+id/editTextDescricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descrição do Agendamento" />
+
+    <EditText
+        android:id="@+id/editTextData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data do Agendamento"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editTextHorario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Horário do Evento" />
+
+
+    <Button
+        android:id="@+id/buttonIncluir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar Agendamento"
+        android:backgroundTint="@color/condo" />
+</LinearLayout>

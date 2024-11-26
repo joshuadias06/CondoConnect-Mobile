@@ -15,6 +15,18 @@
         android:theme="@style/Theme.CondoConnectMobile"
         tools:targetApi="31">
         <activity
+            android:name=".EditarAgendamentoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IncluirAgendamentoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgendamentoDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListagemAgendamentoActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
