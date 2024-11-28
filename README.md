@@ -33,6 +33,10 @@ A aplicação se conecta a uma API PHP que fornece as seguintes funcionalidades:
 - **POST /incluir_produto.php**: Inclui um novo produto na base de dados.
 - **POST /editar_produto.php**: Edita um produto existente.
 - **POST /deletar_produto.php**: Deleta um produto da base de dados.
+- **GET /listagem_agendamento.php**: Retorna a lista de agendamento ativos em formato JSON.
+- **POST /incluir_agendamento.php**: Inclui um novo agendamento na base de dados.
+- **POST /editar_agendamento.php**: Edita um agendamento existente.
+- **POST /deletar_agendamento.php**: Deleta um agendamento da base de dados.
 
 ### Exemplo de Resposta da API
 
@@ -58,4 +62,6 @@ A resposta da API para a listagem de produtos tem o seguinte formato:
         }
     ]
 }
+
+
 
