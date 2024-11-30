@@ -15,28 +15,22 @@ class AgendamentoDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_service_detail)
+        setContentView(R.layout.activity_agendamento_detail)
 
         // Receber os dados da intent
         val serviceEvent = intent.getStringExtra("serviceEvent") ?: "Evento não disponível"
         val serviceDate = intent.getStringExtra("serviceDate") ?: "Data não disponível"
         val serviceDescription = intent.getStringExtra("serviceDescription") ?: "Descrição não disponível"
-        val serviceHorario = intent.getStringExtra("serviceHorario")
 
         // Inicializar os TextViews e ImageView
         serviceEventTextView = findViewById(R.id.serviceEvent)
         serviceDateTextView = findViewById(R.id.serviceDate)
         serviceDescriptionTextView = findViewById(R.id.serviceDescription)
-        serviceHorarioView = findViewById(R.id.horarioView) // Inicializar o ImageView
 
         // Configurar os campos da activity
         serviceEventTextView.text = serviceEvent
         serviceDateTextView.text = serviceDate
         serviceDescriptionTextView.text = serviceDescription
 
-        // Carregar a imagem usando o Picasso
-        serviceHorario?.let {
-            Picasso.get().load(it).into(serviceHorarioView) // Carregar a imagem no ImageView
-        }
     }
 }

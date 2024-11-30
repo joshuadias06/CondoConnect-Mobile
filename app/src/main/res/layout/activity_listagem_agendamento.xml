@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListagemActivity">
+    tools:context=".ListagemAgendamentoActivity">
 
     <TextView
         android:id="@+id/textView7"
@@ -151,8 +151,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/bottomAppBar"
-        app:srcCompat="@drawable/car"
-        app:tint="@color/condo" />
+        app:srcCompat="@drawable/car" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -162,7 +161,8 @@
         app:layout_constraintEnd_toEndOf="@+id/textView9"
         app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/bottomAppBar"
-        app:srcCompat="@drawable/calendar" />
+        app:srcCompat="@drawable/calendar"
+        app:tint="@color/condo"/>
 
     <ImageView
         android:id="@+id/imageView6"

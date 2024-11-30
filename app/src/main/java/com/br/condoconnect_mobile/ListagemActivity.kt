@@ -3,6 +3,7 @@ package com.br.condoconnect_mobile
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,22 @@ class ListagemActivity : AppCompatActivity() {
 
         setupRecyclerView()
         carregarProdutos()
+
+        // Configuração do listener para o botão 'agendar'
+        val agendar: ImageView = findViewById(R.id.imageView5)
+        agendar.setOnClickListener {
+            // Criando o Intent para abrir a ListagemAgendamentoActivity
+            val intent = Intent(this, ListagemAgendamentoActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Configuração do listener para o botão 'config'
+        val config: ImageView = findViewById(R.id.imageView2)
+        config.setOnClickListener {
+            // Criando o Intent para abrir a ListagemAgendamentoActivity
+            val intent = Intent(this, ListagemAgendamentoActivity::class.java)
+            startActivity(intent)
+        }
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             startActivity(Intent(this, IncluirProdutoActivity::class.java))
@@ -66,7 +83,7 @@ class ListagemActivity : AppCompatActivity() {
         val intent = Intent(this, ServiceDetailActivity::class.java).apply {
             putExtra("serviceName", produto.nome_produto)
             putExtra("servicePrice", "R$ ${produto.preco_produto}")
-            putExtra("serviceDescription", produto.desc_produto)// Certifique-se que Produto tem um campo descrição
+            putExtra("serviceDescription", produto.desc_produto) // Certifique-se que Produto tem um campo descrição
             putExtra("serviceImage", produto.imagem_produto) // Passando a URL da imagem
         }
         startActivity(intent)

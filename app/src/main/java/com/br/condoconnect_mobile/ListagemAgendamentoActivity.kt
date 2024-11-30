@@ -21,7 +21,7 @@ class ListagemAgendamentoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_listagem)
+        setContentView(R.layout.activity_listagem_agendamento)
 
         setupRecyclerView()
         carregarAgendamentos()
@@ -60,14 +60,14 @@ class ListagemAgendamentoActivity : AppCompatActivity() {
 
     private fun criarRetrofit(): Retrofit {
         return Retrofit.Builder()
-            //.baseUrl("https://357c4451-a805-4144-911a-3dbcda509679-00-1ma976m8koaut.kirk.replit.dev/") // URL correta
-            .baseUrl("http://10.135.167.28//")
+            //.baseUrl("https://357c4451-a805-4144-911a-3dbcda509679-00-1ma976m8koaut.kirk.replit.dev/"), "http://10.135.167.28//" // URL correta
+            .baseUrl("http://192.168.15.11/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     private fun abrirDetalhesAgendamento(agendamento: Agendamento) {
-        val intent = Intent(this, ServiceDetailActivity::class.java).apply {
+        val intent = Intent(this, AgendamentoDetailActivity::class.java).apply {
             putExtra("serviceEvent", agendamento.evento)
             putExtra("serviceDate", agendamento.data)
             putExtra("serviceDescription", agendamento.descricao)

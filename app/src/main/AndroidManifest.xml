@@ -13,6 +13,7 @@
         android:roundIcon="@drawable/condologo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CondoConnectMobile"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".EditarAgendamentoActivity"
@@ -34,15 +35,6 @@
             android:exported="false" />
         <activity
             android:name=".StartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".agendamento.AgendamentoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".agendamento.DetalhesAgendamentoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".agendamento.IncluirAgendamentoActivity"
             android:exported="false" />
         <activity
             android:name=".IncluirProdutoActivity"
@@ -68,5 +60,6 @@
         </activity>
         <activity android:name=".LoginActivity" />
     </application>
+
 
 </manifest>

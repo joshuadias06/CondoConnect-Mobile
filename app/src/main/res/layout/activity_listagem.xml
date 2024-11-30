@@ -138,12 +138,12 @@
         android:id="@+id/imageView4"
         android:layout_width="29dp"
         android:layout_height="29dp"
-        android:tint="@color/condo"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/bottomAppBar"
-        app:srcCompat="@drawable/car" />
+        app:srcCompat="@drawable/car"
+        app:tint="@color/condo" />
 
     <ImageView
         android:id="@+id/imageView5"
