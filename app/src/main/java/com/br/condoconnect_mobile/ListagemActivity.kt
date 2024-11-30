@@ -27,6 +27,13 @@ class ListagemActivity : AppCompatActivity() {
         setupRecyclerView()
         carregarProdutos()
 
+        val inicio: ImageView = findViewById(R.id.imageView6)
+        inicio.setOnClickListener {
+            // Criando o Intent para abrir a ListagemAgendamentoActivity
+            val intent = Intent(this, StartActivity2::class.java)
+            startActivity(intent)
+        }
+
         // Configuração do listener para o botão 'agendar'
         val agendar: ImageView = findViewById(R.id.imageView5)
         agendar.setOnClickListener {
@@ -39,7 +46,7 @@ class ListagemActivity : AppCompatActivity() {
         val config: ImageView = findViewById(R.id.imageView2)
         config.setOnClickListener {
             // Criando o Intent para abrir a ListagemAgendamentoActivity
-            val intent = Intent(this, ListagemAgendamentoActivity::class.java)
+            val intent = Intent(this, ConfigActivity::class.java)
             startActivity(intent)
         }
 

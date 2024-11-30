@@ -1,5 +1,6 @@
 package com.br.condoconnect_mobile
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -10,41 +11,43 @@ import androidx.core.view.WindowInsetsCompat
 import android.widget.ImageButton
 import android.widget.ImageView
 
-class StartActivity : AppCompatActivity() {
+class StartActivity2 : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_start2)
 
-        // Configuração do listener para o botão 'carrinhoLogin'
-        val carrinhoLogin: ImageButton = findViewById(R.id.carrinhoLogin)
+        // Configuração do listener para o botão 'btnCarrinhoLogin'
+        val btnCarrinhoLogin: ImageButton = findViewById(R.id.carrinhoLogin2)
 
-        carrinhoLogin.setOnClickListener {
+        btnCarrinhoLogin.setOnClickListener {
             // Criando o Intent para abrir a LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-        // Configuração do listener para o botão 'carrinho'
-        val carrinho: ImageView = findViewById(R.id.carrinho)
-        carrinho.setOnClickListener {
-            // Criando o Intent para abrir a LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, ListagemActivity::class.java)
             startActivity(intent)
         }
 
-// Configuração do listener para o botão 'agendar'
-        val agendar: ImageView = findViewById(R.id.agendar)
-        agendar.setOnClickListener {
+        // Configuração do listener para o botão 'imgCarrinho'
+        val imgCarrinho: ImageView = findViewById(R.id.carrinho2)
+        imgCarrinho.setOnClickListener {
             // Criando o Intent para abrir a LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, ListagemActivity::class.java)
             startActivity(intent)
         }
 
-// Configuração do listener para o botão 'config'
-        val config: ImageView = findViewById(R.id.config)
-        config.setOnClickListener {
+        // Configuração do listener para o botão 'imgAgendar'
+        val imgAgendar: ImageView = findViewById(R.id.agendar2)
+        imgAgendar.setOnClickListener {
             // Criando o Intent para abrir a LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, ListagemAgendamentoActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Configuração do listener para o botão 'imgConfig'
+        val imgConfig: ImageView = findViewById(R.id.config2)
+        imgConfig.setOnClickListener {
+            // Criando o Intent para abrir a LoginActivity
+            val intent = Intent(this, ConfigActivity::class.java)
             startActivity(intent)
         }
 
@@ -55,7 +58,6 @@ class StartActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         // Configuração do padding para Edge-to-Edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -64,3 +66,4 @@ class StartActivity : AppCompatActivity() {
         }
     }
 }
+

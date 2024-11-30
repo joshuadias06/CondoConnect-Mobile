@@ -3,6 +3,7 @@ package com.br.condoconnect_mobile
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,30 @@ class ListagemAgendamentoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listagem_agendamento)
+
+        // Configuração do listener para o botão 'imgCarrinho'
+        val imgCarrinho: ImageView = findViewById(R.id.imageView4)
+        imgCarrinho.setOnClickListener {
+            // Criando o Intent para abrir a ListagemActivity
+            val intent = Intent(this, ListagemActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Configuração do listener para o botão 'imgConfig'
+        val imgConfig: ImageView = findViewById(R.id.imageView2)
+        imgConfig.setOnClickListener {
+            // Criando o Intent para abrir a ConfigActivity
+            val intent = Intent(this, ConfigActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Configuração do listener para o botão 'imgCarrinho'
+        val imgInicio: ImageView = findViewById(R.id.imageView6)
+        imgInicio.setOnClickListener {
+            // Criando o Intent para abrir a ListagemActivity
+            val intent = Intent(this, StartActivity2::class.java)
+            startActivity(intent)
+        }
 
         setupRecyclerView()
         carregarAgendamentos()
@@ -60,8 +85,7 @@ class ListagemAgendamentoActivity : AppCompatActivity() {
 
     private fun criarRetrofit(): Retrofit {
         return Retrofit.Builder()
-            //.baseUrl("https://357c4451-a805-4144-911a-3dbcda509679-00-1ma976m8koaut.kirk.replit.dev/"), "http://10.135.167.28//" // URL correta
-            .baseUrl("http://192.168.15.11/")
+            .baseUrl("http://192.168.15.11/")  // URL correta
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
