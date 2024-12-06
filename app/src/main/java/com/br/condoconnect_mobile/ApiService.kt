@@ -43,7 +43,7 @@ interface ApiService {
 
 
     interface ApiService {
-        @POST("seu-endpoint-de-cadastro")
+        @POST("condominio/api/cadastro")
         fun cadastrarUsuario(@Body usuario: Usuario): Call<ResponseCadastro>
     }
 
