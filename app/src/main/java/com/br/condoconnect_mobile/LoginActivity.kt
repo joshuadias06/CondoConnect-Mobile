@@ -43,12 +43,10 @@ class LoginActivity : AppCompatActivity() {
 
         val loginButton: Button = findViewById(R.id.loginButton)
 
-        // Configurar ação do botão de login
         loginButton.setOnClickListener {
             blockLogin()
         }
 
-        // Ação para navegar para a RegisterActivity ao clicar no TextView
         registerTextView.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
